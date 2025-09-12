@@ -13,7 +13,27 @@ while getopts "n:" opt; do
 done
 shift $((OPTIND -1))
 
-# 0-based nearest-rank index for integer percent p (e.g., 50, 90, 95)
+# Calculate 0-based array index for the nearest-rank percentile method
+#
+# This function implements the "nearest-rank" method for percentiles, which is
+# commonly used for performance benchmarking. It returns the array index (0-based)
+# of the element that represents the p-th percentile in a sorted array.
+#
+# Formula: ceil((n * p) / 100) - 1
+# - The +99 before division implements ceiling division in bash integer arithmetic
+# - Subtracting 1 converts from 1-based rank to 0-based array index
+#
+# Args:
+#   n: Total number of data points in the dataset
+#   p: Percentile value (integer: 50 for median, 90, 95, 99, etc.)
+#
+# Returns:
+#   0-based array index for the percentile value
+#
+# Examples:
+#   percentile_index 100 50  # Returns 49 (50th element in 0-based array)
+#   percentile_index 100 90  # Returns 89 (90th element in 0-based array)
+#   percentile_index 10 90   # Returns 8  (9th element in 0-based array)
 percentile_index() {
   local n=$1 p=$2
   echo $(( ((n * p) + 99) / 100 - 1 ))
