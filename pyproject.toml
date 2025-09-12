@@ -1,0 +1,11 @@
+[project]
+name = "ops-utils"
+version = "0.1.0"
+description = "Collection of operational utilities for DevOps and system administration tasks"
+dependencies = [
+    "click>=8.0.0",
+]
+
+[project.scripts]
+benchmark-urls = "scripts.benchmark_urls:main"
+aws-login-bookmarks = "scripts.aws_login_bookmark_generator:main"
